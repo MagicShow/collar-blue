@@ -9,6 +9,7 @@ import ChatThread from '../components/ChatThread'
 import StyleSelector from '../components/StyleSelector'
 import TierCard from '../components/TierCard'
 import EmailComposer from '../components/EmailComposer'
+import ContractorCosts from '../components/ContractorCosts'
 
 // --- Mock AI responses for MVP ---
 const MOCK_AI_REPLIES = [
@@ -86,6 +87,9 @@ export default function NewEstimate() {
   const [selectedStyle, setSelectedStyle] = useState('')
   const [budget, setBudget] = useState('')
 
+  // Costs
+  const [contractorCosts, setContractorCosts] = useState([])
+
   // Tiers
   const [tiers, setTiers] = useState([
     { name: 'Basic', lineItems: [], total: 0, visualUrl: '' },
@@ -131,6 +135,10 @@ export default function NewEstimate() {
     setStep(3)
   }
 
+  const handleContinueFromCosts = () => {
+    setStep(4)
+  }
+
   const handleGenerateQuote = async () => {
     setLoading(true)
     await new Promise(r => setTimeout(r, 2000))
@@ -140,7 +148,7 @@ export default function NewEstimate() {
       { name: 'Premium', lineItems: MOCK_LINE_ITEMS.Premium, total: TIER_TOTALS.Premium, visualUrl: '' },
     ])
     setLoading(false)
-    setStep(4)
+    setStep(5)
   }
 
   const handleGenerateVisual = async (tierName) => {
@@ -283,9 +291,34 @@ export default function NewEstimate() {
       case 4:
         return (
           <div className="wizard-step">
+            <h2 className="wizard-step-title">Contractor Costs</h2>
+            <p className="wizard-step-subtitle">Enter your known costs so we can build accurate margins into the quote tiers.</p>
+
+            <ContractorCosts costs={contractorCosts} onChange={setContractorCosts} />
+
+            <div className="wizard-actions">
+              <button className="btn btn-secondary" onClick={() => setStep(3)}>Back</button>
+              <button
+                className="btn btn-primary"
+                onClick={handleContinueFromCosts}
+              >
+                Continue to Quote Tiers
+              </button>
+            </div>
+          </div>
+        )
+
+      case 5:
+        return (
+          <div className="wizard-step">
             <h2 className="wizard-step-title">Quote Tiers</h2>
             <p className="wizard-step-subtitle">
               Review and edit line items. Generate visuals for each tier.
+              {contractorCosts.length > 0 && (
+                <span style={{ display: 'block', fontSize: '13px', color: 'var(--muted)', marginTop: '4px' }}>
+                  Your costs (${contractorCosts.reduce((sum, c) => sum + c.cost * (parseFloat(c.qty) || 1), 0).toFixed(2)}) are factored in.
+                </span>
+              )}
             </p>
 
             {/* Project summary */}
@@ -315,10 +348,10 @@ export default function NewEstimate() {
             </div>
 
             <div className="wizard-actions">
-              <button className="btn btn-secondary" onClick={() => setStep(3)}>Back</button>
+              <button className="btn btn-secondary" onClick={() => setStep(4)}>Back</button>
               <button
                 className="btn btn-primary"
-                onClick={() => setStep(5)}
+                onClick={() => setStep(6)}
                 disabled={tiers.every(t => t.lineItems.length === 0)}
               >
                 Review &amp; Send
@@ -327,7 +360,7 @@ export default function NewEstimate() {
           </div>
         )
 
-      case 5:
+      case 6:
         return (
           <div className="wizard-step">
             <h2 className="wizard-step-title">Review &amp; Send</h2>
@@ -375,7 +408,7 @@ export default function NewEstimate() {
                   onSend={handleEmailSend}
                 />
                 <div className="wizard-actions" style={{ marginTop: '0' }}>
-                  <button className="btn btn-secondary" onClick={() => setStep(4)}>Back</button>
+                  <button className="btn btn-secondary" onClick={() => setStep(5)}>Back</button>
                 </div>
               </>
             )}

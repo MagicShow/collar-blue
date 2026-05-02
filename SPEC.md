@@ -86,7 +86,7 @@ ContractorHub is a mobile-first sales tool for remodel/painting/flooring/drywall
 
 ### Screens (User Flow)
 1. **Landing** — Dark, color-fade hero with "ContractorHub" logo + tagline + Get Started
-2. **New Estimate** — 5-step wizard
+2. **New Estimate** — 6-step wizard
 3. **AI Chat** — Conversation thread where GPT asks scope questions
 4. **Visuals Gallery** — DALL-E generated renders in a scrollable gallery
 5. **Quote Preview** — 3-tier bid card with all line items
@@ -123,14 +123,22 @@ ContractorHub is a mobile-first sales tool for remodel/painting/flooring/drywall
 - Color palette preference (free text)
 - Budget indicator: Low | Medium | High (for GPT to calibrate tiers)
 
-**Step 4 — Quote Tiers**
+**Step 4 — Contractor Costs**
+- Builder inputs their known costs for materials and labor (optional but recommended)
+- Cost line items: name, qty, unit, cost (what the builder pays)
+- Can add multiple cost entries across categories (materials, labor, equipment, permits, etc.)
+- These costs are used as the floor when GPT generates the 3 quote tiers — ensuring margins are applied correctly
+- Costs can be imported/suggested by GPT after scope is captured, or entered manually
+
+**Step 5 — Quote Tiers**
 - GPT generates 3 tiers: Basic | Standard | Premium
 - Each tier has: name, description, line items, subtotal, margin
 - Line items are editable inline (name, qty, unit, rate)
 - Contractor can add/remove line items per tier
 - Each tier optionally linked to 1 DALL-E visual concept
+- **Margin calculation:** Uses contractor costs from Step 4 as the cost floor; GPT marks up from there based on budget tier
 
-**Step 5 — Review & Send**
+**Step 6 — Review & Send**
 - Client info summary (editable)
 - Quote preview (full breakdown)
 - Add notes/custom message to client
