@@ -13,7 +13,7 @@ export default function NavBar({ title, lead, onBack, onClear }) {
         {lead && <span className="sub">{lead}</span>}
       </div>
 
-      <button className="navbar-action" onClick={onClear}>
+      <button className="navbar-action-label" onClick={onClear}>
         Clear
       </button>
     </div>

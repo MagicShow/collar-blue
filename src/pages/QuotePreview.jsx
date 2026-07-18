@@ -48,8 +48,18 @@ const MOCK_QUOTE = {
   ],
 }
 
+function AccentBarInline() {
+  return (
+    <div style={{ display: 'flex', gap: '4px', marginTop: '12px' }}>
+      {['#E5E7EB', '#1D6AFF', '#F59E0B'].map((c, i) => (
+        <div key={i} style={{ flex: 1, height: '3px', background: c, borderRadius: '2px' }} />
+      ))}
+    </div>
+  )
+}
+
 export default function QuotePreview() {
-  const { id } = useParams()
+  const { id = 'est-001' } = useParams()
   const navigate = useNavigate()
   const quote = MOCK_QUOTE
 
@@ -67,7 +77,7 @@ export default function QuotePreview() {
       <div className="app-content">
         {/* Header */}
         <div style={{ marginBottom: '24px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px', gap: '12px' }}>
             <div>
               <h1 className="h1">{quote.client.name}</h1>
               <p className="muted" style={{ fontSize: '14px', marginTop: '4px' }}>{quote.client.address}</p>
@@ -89,11 +99,15 @@ export default function QuotePreview() {
                     <div className="tier-desc">{tier.description}</div>
                   </div>
                   <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontSize: '22px', fontWeight: 700 }}>${tier.total.toFixed(2)}</div>
+                    <div style={{ fontSize: '22px', fontWeight: 800, letterSpacing: '-0.02em' }}>${tier.total.toFixed(2)}</div>
                   </div>
                 </div>
                 <button
-                  style={{ background: 'none', border: 'none', color: 'var(--primary)', fontSize: '13px', fontWeight: 500, cursor: 'pointer', padding: '4px 0', marginTop: '4px' }}
+                  style={{
+                    background: 'none', border: 'none', color: 'var(--primary)',
+                    fontSize: '13px', fontWeight: 600, cursor: 'pointer',
+                    padding: '6px 0 0', marginTop: '6px',
+                  }}
                   onClick={() => navigate('/new-estimate')}
                 >
                   Edit ✎
@@ -129,35 +143,26 @@ export default function QuotePreview() {
         </div>
 
         {/* Grand total */}
-        <div style={{ padding: '20px', background: 'var(--dark)', borderRadius: 'var(--radius-lg)', color: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-          <div>
+        <div className="quote-grand-total">
+          <div className="label">
             <div style={{ fontSize: '14px', fontWeight: 500, color: 'rgba(255,255,255,0.6)', marginBottom: '4px' }}>Project Range</div>
-            <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)' }}>Basic → Premium</div>
+            <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)' }}>Basic → Premium</div>
           </div>
           <div style={{ textAlign: 'right' }}>
-            <div style={{ fontSize: '28px', fontWeight: 800 }}>${grandTotal.toFixed(2)}</div>
-            <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)' }}>Premium total</div>
+            <div className="value">${grandTotal.toFixed(2)}</div>
+            <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)', textAlign: 'right' }}>Premium total</div>
           </div>
         </div>
 
         {/* CTA */}
         <button
           className="btn btn-primary"
+          style={{ marginTop: '20px' }}
           onClick={() => navigate('/new-estimate')}
         >
           Send Quote to Client
         </button>
       </div>
-    </div>
-  )
-}
-
-function AccentBarInline() {
-  return (
-    <div style={{ display: 'flex', gap: '4px' }}>
-      {['#86868B', '#0071E3', '#FF9500'].map(c => (
-        <div key={c} style={{ flex: 1, height: '3px', background: c, borderRadius: '2px' }} />
-      ))}
     </div>
   )
 }

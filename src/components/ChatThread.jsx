@@ -5,7 +5,7 @@ const QUICK_REPLIES_STEP2 = [
   'Standard finish',
   'High-end materials',
   'One weekend',
-  ' tenant occupied',
+  'Tenant occupied',
   'Has existing damage',
 ]
 
@@ -33,12 +33,12 @@ export default function ChatThread({ messages = [], onSend, onQuickReply, disabl
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden', background: 'var(--surface)' }}>
+    <div className="chat-wrapper">
       {/* Messages */}
-      <div className="chat-container" ref={containerRef} style={{ borderBottom: messages.length > 0 ? '1px solid var(--border)' : 'none' }}>
+      <div className="chat-container" ref={containerRef}>
         {messages.length === 0 && (
           <div className="chat-bubble system">
-            👋 I'll ask a few questions to build your scope. Tap a quick reply or type your answer.
+            I'll ask a few questions to build your scope. Tap a quick reply or type your answer.
           </div>
         )}
 
@@ -90,13 +90,24 @@ export default function ChatThread({ messages = [], onSend, onQuickReply, disabl
           onClick={handleSend}
           disabled={disabled || !input.trim()}
           type="button"
-          aria-label="Send"
+          aria-label="Send message"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             <path d="M14 2L7 9M14 2L9 14L7 9M14 2L2 7L7 9" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </button>
       </div>
+
+      <style>{`
+        .chat-wrapper {
+          display: flex;
+          flex-direction: column;
+          border: 1px solid var(--border);
+          border-radius: var(--radius-md);
+          overflow: hidden;
+          background: var(--surface);
+        }
+      `}</style>
     </div>
   )
 }

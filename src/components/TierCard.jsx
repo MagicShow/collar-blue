@@ -102,12 +102,14 @@ export default function TierCard({ tier, lineItems = [], total = 0, visualUrl, o
         </table>
 
         <button
-          className="btn btn-sm"
+          className="tier-add-item-btn"
           onClick={addItem}
           type="button"
-          style={{ marginTop: '10px', color: 'var(--primary)', background: 'transparent', border: '1.5px dashed var(--border)', width: '100%' }}
         >
-          + Add Line Item
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M7 1V13M1 7H13" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+          Add Line Item
         </button>
       </div>
 

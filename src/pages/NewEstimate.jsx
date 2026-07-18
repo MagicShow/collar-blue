@@ -322,12 +322,12 @@ export default function NewEstimate() {
             </p>
 
             {/* Project summary */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', padding: '12px 16px', background: 'rgba(0,113,227,0.06)', borderRadius: 'var(--radius-md)', border: '1px solid rgba(0,113,227,0.15)' }}>
+            <div className="project-summary-strip">
               <div>
-                <div style={{ fontSize: '14px', fontWeight: 600 }}>{clientName || 'New Client'}</div>
-                <div style={{ fontSize: '12px', color: 'var(--muted)', marginTop: '2px' }}>{projectTypes.join(', ')} · {selectedStyle} · {budget} budget</div>
+                <div className="client-name">{clientName || 'New Client'}</div>
+                <div className="project-meta">{projectTypes.join(', ')} · {selectedStyle} · {budget} budget</div>
               </div>
-              <div style={{ fontSize: '18px', fontWeight: 700, color: 'var(--primary)' }}>
+              <div className="project-total">
                 ${totalProject.toFixed(2)}
               </div>
             </div>
@@ -386,17 +386,17 @@ export default function NewEstimate() {
             </div>
 
             {emailSent ? (
-              <div style={{ textAlign: 'center', padding: '40px 20px' }}>
-                <div style={{ fontSize: '56px', marginBottom: '16px' }}>✅</div>
-                <h3 className="h2" style={{ marginBottom: '8px' }}>Quote Sent!</h3>
-                <p style={{ color: 'var(--muted)', marginBottom: '24px' }}>Your estimate has been delivered to {clientEmail || 'the client'}.</p>
-                <div style={{ display: 'flex', gap: '12px' }}>
-                  <button className="btn btn-secondary" onClick={() => window.location.hash = '#/dashboard'} style={{ flex: 1 }}>
-                    View Dashboard
-                  </button>
-                  <button className="btn btn-primary" onClick={() => window.location.hash = '#/'} style={{ flex: 1 }}>
-                    New Estimate
-                  </button>
+              <div className="success-screen">
+                <div className="success-icon">
+                  <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                    <path d="M8 18L15 25L28 11" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <h3 className="success-title">Quote Sent!</h3>
+                <p className="success-subtitle">Your estimate has been delivered to {clientEmail || 'the client'}.</p>
+                <div className="success-actions">
+                  <button className="btn btn-secondary" onClick={() => window.location.hash = '#/dashboard'}>View Dashboard</button>
+                  <button className="btn btn-primary" onClick={() => window.location.hash = '#/'}>New Estimate</button>
                 </div>
               </div>
             ) : (
