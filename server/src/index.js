@@ -13,10 +13,17 @@ const PORT = process.env.PORT || 3001
 app.use(cors())
 app.use(express.json({ limit: '10mb' }))
 
-// ─── OpenAI Client ─────────────────────────────────────────────────────────────
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+// ─── OpenAI Client (lazy init — only created when first API call is made) ───
+let _openai = null
+const getOpenAI = () => {
+  if (!_openai) {
+    if (!process.env.OPENAI_API_KEY) {
+      throw new Error('OPENAI_API_KEY environment variable is not set')
+    }
+    _openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+  }
+  return _openai
+}
 
 // ─── In-memory store (swap for PostgreSQL/Neon in Phase 2) ──────────────────
 const estimates = new Map()
@@ -148,7 +155,7 @@ app.post('/api/estimate/:id/chat', async (req, res) => {
   }
 
   try {
-    const stream = await openai.chat.completions.create({
+    const stream = await getOpenAI().chat.completions.create({
       model: 'gpt-4o',
       messages: gptMessages,
       max_tokens: 400,
@@ -240,7 +247,7 @@ RULES:
 }`
 
   try {
-    const completion = await openai.chat.completions.create({
+    const completion = await getOpenAI().chat.completions.create({
       model: 'gpt-4o',
       messages: [
         { role: 'system', content: QUOTE_PROMPT },
@@ -296,7 +303,7 @@ app.post('/api/estimate/:id/generate-visuals', async (req, res) => {
   const prompt = `Professional construction/renovation render. ${styleContext} ${description}. High quality architectural visualization, realistic lighting, photorealistic finish, 16:9 aspect ratio.`
 
   try {
-    const image = await openai.images.generate({
+    const image = await getOpenAI().images.generate({
       model: 'dall-e-3',
       prompt,
       n: 1,
