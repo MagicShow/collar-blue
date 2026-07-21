@@ -3,12 +3,8 @@
   # Frontend (Vercel) proxies /api/* to this service
 
 [build]
-  # npm install runs automatically before start
-  builder = "nixpacks"
-
-[nixpacks]
-  # Let Railway detect Node.js from package.json
-  # No custom build script needed — clean Express drop-in
+  # Use Dockerfile for deterministic builds
+  builder = "docker"
 
 [deploy]
   startCommand = "node src/index.js"
