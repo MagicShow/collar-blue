@@ -403,7 +403,7 @@ app.get('/api/estimate/:id', (req, res) => {
   res.json(estimate)
 })
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`ContractorHub API running on http://localhost:${PORT}`)
   console.log(`OpenAI: ${process.env.OPENAI_API_KEY ? '✓ configured' : '✗ NOT SET — add OPENAI_API_KEY to .env'}`)
   console.log(`SMTP:   ${process.env.SMTP_HOST ? '✓ configured' : '✗ not configured (emails will mock)'}`)
