@@ -77,6 +77,11 @@ function sanitize(text) {
     .trim()
 }
 
+// ─── Root ───────────────────────────────────────────────────────────────────
+app.get('/', (req, res) => {
+  res.json({ name: 'ContractorHub API', status: 'running' })
+})
+
 // ─── Health ──────────────────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => {
   res.json({
