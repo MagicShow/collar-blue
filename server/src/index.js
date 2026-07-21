@@ -5,10 +5,23 @@ import { dirname, join } from 'path'
 import 'dotenv/config'
 import OpenAI from 'openai'
 
+// ─── Crash handlers ──────────────────────────────────────────────────────────
+process.on('uncaughtException', (err) => {
+  console.error('UNCAUGHT EXCEPTION:', err.message, err.stack)
+  process.exit(1)
+})
+process.on('unhandledRejection', (reason) => {
+  console.error('UNHANDLED REJECTION:', reason)
+  process.exit(1)
+})
+
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 const app = express()
 const PORT = process.env.PORT || 3001
+
+console.log(`Starting ContractorHub API... PORT=${PORT}, NODE_ENV=${process.env.NODE_ENV}`)
+console.log(`OPENAI_API_KEY set: ${!!process.env.OPENAI_API_KEY}`)
 
 app.use(cors())
 app.use(express.json({ limit: '10mb' }))
@@ -409,7 +422,7 @@ app.get('/api/estimate/:id', (req, res) => {
 })
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`ContractorHub API running on http://localhost:${PORT}`)
+  console.log(`ContractorHub API running on http://0.0.0.0:${PORT}`)
   console.log(`OpenAI: ${process.env.OPENAI_API_KEY ? '✓ configured' : '✗ NOT SET — add OPENAI_API_KEY to .env'}`)
   console.log(`SMTP:   ${process.env.SMTP_HOST ? '✓ configured' : '✗ not configured (emails will mock)'}`)
 })
