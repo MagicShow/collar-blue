@@ -4,7 +4,7 @@
 
 [build]
   # Use Dockerfile for deterministic builds
-  builder = "docker"
+  builder = "DOCKERFILE"
 
 [deploy]
   startCommand = "node src/index.js"
