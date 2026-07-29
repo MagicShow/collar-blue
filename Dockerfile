@@ -14,4 +14,4 @@ EXPOSE 3001
 ENV NODE_ENV=production
 ENV PORT=3001
 
-CMD ["sh", "-c", "cd server && node src/index.js"]
+CMD ["node", "src/index.js"]
