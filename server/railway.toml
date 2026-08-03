@@ -1,15 +1,9 @@
 [railway]
   # The server is a Node.js/Express service
-  # Frontend (Vercel) proxies /api/* to this service
 
 [build]
-  # Use Dockerfile for deterministic builds
   builder = "DOCKERFILE"
 
 [deploy]
-  startCommand = "cd server && node src/index.js"
+  startCommand = "node src/index.js"
   healthCheckPath = "/api/health"
-
-[environment]
-  # Railway injects PORT automatically — do NOT hardcode it
-  # NODE_ENV is set automatically
